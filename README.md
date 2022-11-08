@@ -1,0 +1,2 @@
+# SmartSelect
+Smart Select Plugin
