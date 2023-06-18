@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>Smart Select</title>
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/fe-jw/STA/img/favicon.ico">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fe-jw/fe-jw.github.io/css/font.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fe-jw/STA/css/highlight-material-11.4.0.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fe-jw/STA/Ver1.5/sta.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fe-jw/STA/css/style.min.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/gh/fe-jw/SmartSelect/js/highlight-8.7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fe-jw/STA/Ver1.5/sta.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+
+window.addEventListener('load', function(){
+	// Loading
+	setTimeout(function(){
+		window.scrollTo(0, 0);
+		document.body.classList.add('onLoad');
+		document.querySelectorAll('[data-sta]').STA({
+			defaultOffset: 0.3
+		});
+	}, 500);
+});
+
+document.querySelector('.btn-top').addEventListener('click', function(){
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth'
+	});
+});
+
+window.addEventListener('scroll', function(){
+	var headerHeight = document.querySelector('.header').offsetHeight;
+
+	if(window.scrollY > headerHeight){
+		document.querySelector('.btn-top').classList.add('on');
+	}else{
+		document.querySelector('.btn-top').classList.remove('on');
+	}
+});
+</script>
+</body>
+</html>
