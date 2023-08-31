@@ -7,44 +7,90 @@
 	<title>test</title>
 	<style>
 		*	{margin:0;padding:0;list-style:none;}
-		button	{cursor:pointer;}
-
-		.smart-select	{width:200px;height:50px;position:relative;}
-		.smart-select > .btn-select	{display:block;width:100%;height:100%;border:1px solid #000;background-color:#ddd;}
-		.smart-select > ul	{display:none;width:100%;position:absolute;left:0;top:100%;border:1px solid #ccc;border-radius:10px;}
-		.smart-select > ul > li	{display:flex;align-items:center;height:40px;padding:5px;box-sizing:border-box;}
-		.smart-select > ul > li ~ li	{border-top:1px solid #ccc;}
-		.smart-select > ul > li:hover	{background-color:#ccc;}
-
-		/* 오픈 */
-		.smart-select.expanded > ul	{display:block;}
+		html	{-webkit-text-size-adjust:none;}
+		body	{line-height:1.3;font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#000;}
+		button	{font:inherit;cursor:pointer;}
+		.wrap	{display:flex;gap:5.0rem;}
+		[class^='smart-select']	{width:200px;height:50px;position:relative;}
+		[class^='smart-select'] .btn-select	{display:block;width:100%;height:100%;border:1px solid #000;background-color:#eaeaea;}
+		[class^='smart-select'] ul	{overflow-y:auto;display:none;width:100%;max-height:150px;position:absolute;left:0;top:calc(100% + 4px);border:1px solid #ccc;}
+		[class^='smart-select'] li	{display:flex;align-items:center;min-height:2.0em;padding:0.2em 0.5em;cursor:pointer;box-sizing:border-box;}
+		[class^='smart-select'] li:hover	{background-color:#eaeaea;}
+		[class^='smart-select'].expanded ul	{display:block;}
 	</style>
 </head>
 <body>
-<div class="smart-select">
-	<button type="button" class="btn-select">과일</button>
-	<ul>
-		<li data-option="value-0">하미과</li>
-		<li data-option="value-1">람부탄</li>
-		<li data-option="value-2">두리안</li>
-		<li data-option="value-3">망고스틴</li>
-		<li data-option="value-4">백년초 열매</li>
-		<li data-option="value-5">딸기</li>
-		<li data-option="value-6">사과</li>
-		<li data-option="value-7">수박</li>
-		<li data-option="value-8">키위</li>
-		<li data-option="value-9">바나나</li>
-		<li data-option="value-10">망고</li>
-	</ul>
+<div class="wrap">
+	<div class="smart-select-1">
+		<button type="button" class="btn-select">과일</button>
+		<ul>
+			<li data-value="1-0">하미과</li>
+			<li data-value="1-1">람부탄</li>
+			<li data-value="1-2">두리안</li>
+			<li data-value="1-3">망고스틴</li>
+			<li data-value="1-4">백년초열매</li>
+			<li data-value="1-5">딸기</li>
+			<li data-value="1-6">사과</li>
+			<li data-value="1-7">수박</li>
+			<li data-value="1-8">키위</li>
+			<li data-value="1-9">바나나</li>
+			<li data-value="1-10">망고</li>
+		</ul>
+	</div>
+	<div class="smart-select-2">
+		<button type="button" class="btn-select">국가</button>
+		<ul>
+			<li data-value="2-0">한국</li>
+			<li data-value="2-1">미국</li>
+			<li data-value="2-2">일본</li>
+			<li data-value="2-3">중국</li>
+			<li data-value="2-4">독일</li>
+			<li data-value="2-5">프랑스</li>
+			<li data-value="2-6">러시아</li>
+			<li data-value="2-7">스페인</li>
+			<li data-value="2-8">포르투갈</li>
+			<li data-value="2-9">인도네시아</li>
+			<li data-value="2-10">태국</li>
+		</ul>
+	</div>
+	<div id="smart-select-3" class="smart-select">
+		<button type="button" class="btn-select">아무거나</button>
+		<ul>
+			<li data-value="3-0">김김김</li>
+			<li data-value="3-1">이이이</li>
+			<li data-value="3-2">박박박</li>
+			<li data-value="3-3">최최최</li>
+			<li data-value="3-4">나나나</li>
+			<li data-value="3-5">뷰뷰뷰</li>
+			<li data-value="3-6">리액트</li>
+			<li data-value="3-7">스벨트</li>
+			<li data-value="3-8">앵귤러</li>
+		</ul>
+	</div>
 </div>
 <script src="SmartSelect.js"></script>
 <script>
-	const smartSelect = new SmartSelect('.smart-select');
-
+	const smartSelect_1 = new SmartSelect('.smart-select-1');
+	const smartSelect_2 = new SmartSelect('.smart-select-2');
+	const smartSelect_3 = new SmartSelect('#smart-select-3');
+	
 	// 값 변경된 경우
-	smartSelect.afterChange = function(){
-
-	};
+	// smartSelect_1.afterChange(function(result){
+		// console.log('afterChange smartSelect_1');
+		// console.log(result);
+	// });
+	smartSelect_1.afterChange(result => {
+		console.log('afterChange smartSelect_1');
+		console.log(result);
+	});
+	smartSelect_2.afterChange(result => {
+		console.log('afterChange smartSelect_2');
+		console.log(result);
+	});
+	smartSelect_3.afterChange(result => {
+		console.log('afterChange smartSelect_3');
+		console.log(result);
+	});
 </script>
 </body>
 </html>
