@@ -10,18 +10,19 @@
 		html	{-webkit-text-size-adjust:none;}
 		body	{line-height:1.3;font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#000;}
 		button	{font:inherit;cursor:pointer;}
-		.wrap	{display:flex;gap:5.0rem;}
-		[class^='smart-select']	{width:200px;height:50px;position:relative;}
-		[class^='smart-select'] .btn-select	{display:block;width:100%;height:100%;border:1px solid #000;background-color:#eaeaea;}
-		[class^='smart-select'] ul	{overflow-y:auto;display:none;width:100%;max-height:150px;position:absolute;left:0;top:calc(100% + 4px);border:1px solid #ccc;}
-		[class^='smart-select'] li	{display:flex;align-items:center;min-height:2.0em;padding:0.2em 0.5em;cursor:pointer;box-sizing:border-box;}
-		[class^='smart-select'] li:hover	{background-color:#eaeaea;}
-		[class^='smart-select'].expanded ul	{display:block;}
+		.wrap	{display:flex;}
+		[class^='select-']	{width:200px;height:50px;position:relative;}
+		[class^='select-'] .btn-select	{display:block;width:100%;height:100%;padding:0.5em;border:1px solid #000;background-color:#eaeaea;}
+		[class^='select-'] ul	{overflow-y:auto;display:none;width:100%;max-height:150px;position:absolute;left:0;top:calc(100% + 2px);border:1px solid #ccc;box-sizing:border-box;}
+		[class^='select-'] li	{display:flex;align-items:center;min-height:2.0em;padding:0.2em 0.5em;cursor:pointer;box-sizing:border-box;}
+		[class^='select-'] li:hover,
+		[class^='select-'] li:focus	{background-color:#eaeaea;}
+		[class^='select-'].expanded ul	{display:block;}
 	</style>
 </head>
 <body>
 <div class="wrap">
-	<div class="smart-select-1">
+	<div class="select-1">
 		<button type="button" class="btn-select">과일</button>
 		<ul>
 			<li data-value="1-0">하미과</li>
@@ -37,7 +38,7 @@
 			<li data-value="1-10">망고</li>
 		</ul>
 	</div>
-	<div class="smart-select-2">
+	<div class="select-2">
 		<button type="button" class="btn-select">국가</button>
 		<ul>
 			<li data-value="2-0">한국</li>
@@ -53,7 +54,7 @@
 			<li data-value="2-10">태국</li>
 		</ul>
 	</div>
-	<div id="smart-select-3" class="smart-select">
+	<div id="select-3" class="select-3">
 		<button type="button" class="btn-select">아무거나</button>
 		<ul>
 			<li data-value="3-0">김김김</li>
@@ -70,9 +71,9 @@
 </div>
 <script src="SmartSelect.js"></script>
 <script>
-	const smartSelect_1 = new SmartSelect('.smart-select-1');
-	const smartSelect_2 = new SmartSelect('.smart-select-2');
-	const smartSelect_3 = new SmartSelect('#smart-select-3');
+	const smartSelect_1 = new SmartSelect('.select-1');
+	const smartSelect_2 = new SmartSelect('.select-2');
+	const smartSelect_3 = new SmartSelect('#select-3');
 	
 	// 값 변경된 경우
 	// smartSelect_1.afterChange(function(result){
