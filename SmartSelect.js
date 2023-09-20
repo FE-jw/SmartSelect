@@ -5,18 +5,39 @@
  * Released: ####-##-##
 */
 
+/**
+ * TODO
+ * [O] 선택된 옵션에 활성화 class 추가
+ * [O] type popup 에서 우측 O 아이콘 추가
+ * 
+ * # 이슈
+ * [] 1번 옵션에서 enter 입력 시 안닫힘
+ */
+
 class SmartSelect{
-	constructor(options){
-		this.controls = options.replace('#', '').replace('.', '');
-		this.select = document.querySelector(options);
+	constructor(selector, options){
+		this.controls = selector.replace('#', '').replace('.', '');
+		this.select = document.querySelector(selector);
 		this.btn = this.select.querySelector('button');
 		this.lists = this.select.querySelector('ul');
 		this.changeCallback = null;
 		this.currentValue = null;
+		this.type = options?.type ?? 'dropdown';
 
 		this.init();
 	}
 
+	/**
+	 * select 타입 설정
+	 */
+	selectType(){
+		this.select.dataset.selectType = this.type;
+	}
+
+	/**
+	 * 
+	 * @param {object} value - 선택된 옵션 정보
+	 */
 	updateSelected(value){
 		const { prev, current } = value;
 		const result = {
@@ -26,28 +47,45 @@ class SmartSelect{
 			text: current.textContent
 		};
 
+		if(prev){
+			this.lists.querySelector(`li[data-value="${prev}"]`).classList.remove('selected');
+		}
+
+		current.classList.add('selected');
+
 		this.btn.textContent = result.text;
+		this.btn.focus();
 		this.expandToggle();
 		this.changeCallback?.(result);
 		this.currentValue = result.current;
 	}
 
+	/**
+	 * select on/off toggle
+	 */
 	expandToggle(){
 		this.select.classList.toggle('expanded');
 
 		if(this.btn.ariaExpanded == 'false'){
 			this.btn.ariaExpanded = true;
-			// this.lists.querySelector('li:first-child').focus();
 		}else{
 			this.btn.ariaExpanded = false;
 		}
 	}
 
+	/**
+	 * 
+	 * @param {function} callback - 옵션 선택 후 실행할 기능
+	 */
 	afterChange(callback){
 		if(typeof callback === 'function') this.changeCallback = callback;
 	}
 
+	/**
+	 * 초기화
+	 */
 	init(){
+		this.selectType();
 		const controlConnect = this.controls + '-smart-select';
 
 		this.btn.ariaExpanded = false;
@@ -57,11 +95,12 @@ class SmartSelect{
 
 		this.lists.id = controlConnect;
 		this.lists.role = 'listbox';
-		this.lists.querySelectorAll('li').forEach((list, index) => {
-			list.tabIndex = 0;
-			list.dataset.smartIndex = index;
+		this.lists.querySelectorAll('li').forEach((li, index) => {
+			li.tabIndex = 0;
+			li.role = 'option';
+			li.dataset.smartIndex = index;
 
-			list.addEventListener('click', e => {
+			li.addEventListener('click', e => {
 				const value = {
 					prev: this.currentValue,
 					current: e.target
@@ -70,31 +109,40 @@ class SmartSelect{
 				this.updateSelected(value);
 			});
 
-			/*
-			list.addEventListener('keydown', e => {
+			li.addEventListener('keydown', e => {
 				const key = e.key.toLowerCase();
 
-				if(key == 'enter'){
-					const value = {
-						prev: this.currentValue,
-						current: e.target
-					};
-	
-					this.updateSelected(value);
-				}else if(key == 'arrowdown'){
-					list.nextElementSibling.focus();
-				}else if(key == 'arrowup'){
-					list.previousElementSibling.focus();
+				switch(key){
+					case 'enter':
+						const value = {
+							prev: this.currentValue,
+							current: e.target
+						};
+						
+						this.updateSelected(value);
+					case 'arrowdown':
+					case 'arrowup':
+						const nextOption = key === 'arrowdown' ? li.nextElementSibling : li.previousElementSibling;
+
+						if(nextOption){
+							nextOption.focus();
+							e.preventDefault();
+							return false;
+						}
+					default:
+						break;
 				}
 			});
-			*/
 		});
 
 		// 다른 영역 클릭 시 select 닫음
 		this.select.addEventListener('click', e => e.stopPropagation());
 		document.addEventListener('click', () => {
 			const state = this.select.classList.contains('expanded');
-			if(state) this.expandToggle();
+
+			if(state){
+				this.expandToggle();
+			}
 		});
 	}
 }

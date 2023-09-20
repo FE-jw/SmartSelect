@@ -8,16 +8,25 @@
 	<style>
 		*	{margin:0;padding:0;list-style:none;}
 		html	{-webkit-text-size-adjust:none;}
-		body	{line-height:1.3;font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#000;}
-		button	{font:inherit;cursor:pointer;}
 		.wrap	{display:flex;}
-		[class^='select-']	{width:200px;height:50px;position:relative;}
+		[class^='select-']	{width:200px;height:50px;position:relative;line-height:1.3;font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#000;}
+		[class^='select-'] button	{font:inherit;cursor:pointer;}
 		[class^='select-'] .btn-select	{display:block;width:100%;height:100%;padding:0.5em;border:1px solid #000;background-color:#eaeaea;}
-		[class^='select-'] ul	{overflow-y:auto;display:none;width:100%;max-height:150px;position:absolute;left:0;top:calc(100% + 2px);border:1px solid #ccc;box-sizing:border-box;}
+		[class^='select-'] ul	{overflow-y:auto;visibility:hidden;width:100%;box-sizing:border-box;}
 		[class^='select-'] li	{display:flex;align-items:center;min-height:2.0em;padding:0.2em 0.5em;cursor:pointer;box-sizing:border-box;}
-		[class^='select-'] li:hover,
-		[class^='select-'] li:focus	{background-color:#eaeaea;}
-		[class^='select-'].expanded ul	{display:block;}
+		[class^='select-'] li:hover	{background-color:#eaeaea;}
+		[class^='select-'].expanded ul	{visibility:visible;}
+
+		/* list type */
+		[data-select-type='dropdown'] ul	{max-height:150px;position:absolute;left:0;top:calc(100% + 2px);border:1px solid #ccc;}
+
+		/* popup type */
+		[data-select-type='popup'] ul	{opacity:0;width:90%;max-height:250px;padding:20px;position:fixed;left:5%;bottom:20px;border-radius:10px;background-color:#fff;transform:translateY(100%);z-index:100;}
+		[data-select-type='popup'].expanded:before	{content:'';width:100%;height:100%;position:fixed;left:0;top:0;background-color:rgba(0, 0, 0, 0.8);z-index:100;}
+		[data-select-type='popup'].expanded ul	{opacity:1;transform:translateY(0);transition:transform 0.3s, opacity 0.6s;}
+		[data-select-type='popup'].expanded li	{padding:0.2em 2.0em 0.2em 0.5em;position:relative;}
+		[data-select-type='popup'].expanded li:before	{content:'';width:14px;height:14px;position:absolute;right:8px;top:50%;border:1px solid #999;border-radius:50%;transform:translateY(-50%);box-sizing:border-box;}
+		[data-select-type='popup'].expanded li.selected:before	{border:none;background-color:royalblue;}
 	</style>
 </head>
 <body>
@@ -71,15 +80,13 @@
 </div>
 <script src="SmartSelect.js"></script>
 <script>
-	const smartSelect_1 = new SmartSelect('.select-1');
+	const smartSelect_1 = new SmartSelect('.select-1', {
+		type: 'popup'
+	});
 	const smartSelect_2 = new SmartSelect('.select-2');
 	const smartSelect_3 = new SmartSelect('#select-3');
 	
 	// 값 변경된 경우
-	// smartSelect_1.afterChange(function(result){
-		// console.log('afterChange smartSelect_1');
-		// console.log(result);
-	// });
 	smartSelect_1.afterChange(result => {
 		console.log('afterChange smartSelect_1');
 		console.log(result);
