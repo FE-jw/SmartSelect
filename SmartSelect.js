@@ -28,13 +28,6 @@ class SmartSelect{
 	}
 
 	/**
-	 * select 타입 설정
-	 */
-	selectType(){
-		this.select.dataset.selectType = this.type;
-	}
-
-	/**
 	 * 
 	 * @param {object} value - 선택된 옵션 정보
 	 */
@@ -64,11 +57,13 @@ class SmartSelect{
 	 * select on/off toggle
 	 */
 	expandToggle(){
-		this.select.classList.toggle('expanded');
+		const isExpanded = this.select.classList.contains('expanded');
 
-		if(this.btn.ariaExpanded == 'false'){
+		if(!isExpanded){
+			this.select.classList.add('expanded');
 			this.btn.ariaExpanded = true;
 		}else{
+			this.select.classList.remove('expanded');
 			this.btn.ariaExpanded = false;
 		}
 	}
@@ -85,7 +80,8 @@ class SmartSelect{
 	 * 초기화
 	 */
 	init(){
-		this.selectType();
+		this.select.dataset.selectType = this.type;
+
 		const controlConnect = this.controls + '-smart-select';
 
 		this.btn.ariaExpanded = false;
