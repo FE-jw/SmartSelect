@@ -5,15 +5,6 @@
  * Released: ####-##-##
 */
 
-/**
- * TODO
- * [O] 선택된 옵션에 활성화 class 추가
- * [O] type popup 에서 우측 O 아이콘 추가
- * 
- * # 이슈
- * [] 1번 옵션에서 enter 입력 시 안닫힘
- */
-
 class SmartSelect{
 	constructor(selector, options){
 		this.controls = selector.replace('#', '').replace('.', '');
@@ -33,6 +24,7 @@ class SmartSelect{
 	 */
 	updateSelected(value){
 		const { prev, current } = value;
+		const isChanged = current.classList.contains('selected');
 		const result = {
 			prev,
 			current: current.dataset.value,
@@ -40,17 +32,19 @@ class SmartSelect{
 			text: current.textContent
 		};
 
-		if(prev){
-			this.lists.querySelector(`li[data-value="${prev}"]`).classList.remove('selected');
+		if(!isChanged){
+			if(result.prev){
+				this.lists.querySelector(`li[data-value="${result.prev}"]`).classList.remove('selected');
+			}
+			
+			current.classList.add('selected');
+
+			this.btn.textContent = result.text;
+			this.btn.focus();
+			this.expandToggle();
+			this.changeCallback?.(result);
+			this.currentValue = result.current;
 		}
-
-		current.classList.add('selected');
-
-		this.btn.textContent = result.text;
-		this.btn.focus();
-		this.expandToggle();
-		this.changeCallback?.(result);
-		this.currentValue = result.current;
 	}
 
 	/**
@@ -104,18 +98,22 @@ class SmartSelect{
 
 				this.updateSelected(value);
 			});
-
+			
 			li.addEventListener('keydown', e => {
 				const key = e.key.toLowerCase();
-
+				
 				switch(key){
 					case 'enter':
+						e.preventDefault();
+
 						const value = {
-							prev: this.currentValue,
+							prev: this.currentValue,	
 							current: e.target
 						};
 						
 						this.updateSelected(value);
+
+						break;
 					case 'arrowdown':
 					case 'arrowup':
 						const nextOption = key === 'arrowdown' ? li.nextElementSibling : li.previousElementSibling;
@@ -125,6 +123,8 @@ class SmartSelect{
 							e.preventDefault();
 							return false;
 						}
+
+						break;
 					default:
 						break;
 				}
