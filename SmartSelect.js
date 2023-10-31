@@ -14,7 +14,6 @@ class SmartSelect{
 		this.changeCallback = null;
 		this.currentValue = null;
 		this.type = options?.type ?? 'dropdown';
-
 		this.init();
 	}
 
@@ -68,6 +67,17 @@ class SmartSelect{
 	 */
 	afterChange(callback){
 		if(typeof callback === 'function') this.changeCallback = callback;
+	}
+
+	/**
+	 * 
+	 * @param {string} type - type 유형(dropdown, popup)
+	 */
+	setType(type){
+		if(type === 'dropdown' || type === 'popup'){
+			this.type = type;
+			this.select.dataset.selectType = this.type;
+		}
 	}
 
 	/**
